@@ -74,6 +74,7 @@ def compiler(input, output):
     script = open(input, "r").read()
     variables = {}
     i = 0
+    groupi = -1
     tocontinue = False
     for line in script.split("\n"):
         i+=1
@@ -82,7 +83,11 @@ def compiler(input, output):
             if line.startswith(variable+"."):
                 name = line[len(variable+"."):].split("=")[0].strip()
                 value = line[len(variable)+1:].split("=")[1].strip()
-                if value == "true":
+                if name == "group":
+                    for variable2 in variables:
+                        if variable2 == value:
+                            variables[variable]["group"] = variables[variable2]["id"]
+                elif value == "true":
                     variables[variable][name] = True
                 elif value == "false":
                     variables[variable][name] = False
@@ -127,6 +132,12 @@ def compiler(input, output):
                 variables[name] = getpartjson()
                 variables[name]["type"] = "Part"
                 variables[name]["name"] = name
+        elif line.startswith("group"):
+            name = line[5:].strip().split("=")[0].strip()
+            value = line[5:].strip().split("=")[1].strip()
+            groupi+=1
+            if value == "Group()":
+                variables[name] = {"type": "Group", "name": name, "id": groupi, "parent_group": None}
         elif line.startswith("//") or line == "":
             pass
         else:
@@ -136,6 +147,10 @@ def compiler(input, output):
         if variables[variable]["type"] == "Part":
             variables[variable].pop("type")
             jsondata["parts"].append(variables[variable])
+        elif variables[variable]["type"] == "Group":
+            variables[variable].pop("type")
+            variables[variable].pop("id")
+            jsondata["groups"].append(variables[variable])
     open(f"{output}", "w").write(json.dumps(jsondata))
 
 if __name__ == "__main__":
