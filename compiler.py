@@ -67,6 +67,12 @@ def getpartjson():
         "point_light": None,
         "spot_light": None
     }
+def is_float(str):
+    try:
+        float(str)
+        return True
+    except:
+        return False
 
 def compiler(input, output):
     script = open(input, "r").read()
@@ -88,9 +94,13 @@ def compiler(input, output):
                     name = line[len(variable+"."):].split("=")[0].strip()
                     value = line[len(variable)+1:].split("=")[1].strip()
                     if name == "group":
-                        for variable2 in variables:
-                            if variable2 == value:
-                                variables[variable]["group"] = variables[variable2]["id"]
+                        variables[variable]["group"] = variables[value]["id"]
+                    elif name == "point_light":
+                        variables[variable]["point_light"] = variables[value]
+                    elif name == "intensity":
+                        variables[variable][name] = float(value) * 1500000.0
+                    elif is_float(value):
+                        variables[variable][name] = float(value)
                     elif value == "true":
                         variables[variable][name] = True
                     elif value == "false":
@@ -147,6 +157,21 @@ def compiler(input, output):
             value = line[7:].strip().split("=")[1].strip()
             if value == "Texture()":
                 variables[name] = {"face": "Top", "kind": "Studs"}
+        elif line.startswith("pointLight"):
+            name = line[10:].strip().split("=")[0].strip()
+            value = line[10:].strip().split("=")[1].strip()
+            if value == "PointLight()":
+                variables[name] = {
+                    "color": {
+                        "r": 0.99999994,
+                        "g": 0.99999994,
+                        "b": 0.99999994,
+                        "a": 1.0
+                    },
+                    "intensity": 1500000.0,
+                    "range": 20.0,
+                    "shadow_maps_enabled": False
+                }
         elif line.startswith("//") or line == "":
             pass
         else:
