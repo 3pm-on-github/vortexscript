@@ -62,12 +62,7 @@ def getpartjson():
         "spawn_location": False,
         "baseplate": False,
         "truss": False,
-        "textures": [
-            {
-                "face": "Top",
-                "kind": "Studs"
-            }
-        ]
+        "textures": []
     }
 
 def compiler(input, output):
@@ -81,46 +76,52 @@ def compiler(input, output):
         line = line.strip()
         for variable in variables:
             if line.startswith(variable+"."):
-                name = line[len(variable+"."):].split("=")[0].strip()
-                value = line[len(variable)+1:].split("=")[1].strip()
-                if name == "group":
-                    for variable2 in variables:
-                        if variable2 == value:
-                            variables[variable]["group"] = variables[variable2]["id"]
-                elif value == "true":
-                    variables[variable][name] = True
-                elif value == "false":
-                    variables[variable][name] = False
-                elif value.startswith("\"") or value.startswith("'"):
-                    variables[variable][name] = value[1:-1]
-                elif value.startswith("Vector3"):
-                    x = float(value[8:-1].split(",")[0].strip())
-                    y = float(value[8:-1].split(",")[1].strip())
-                    z = float(value[8:-1].split(",")[2].strip())
-                    variables[variable][name]["x"] = x
-                    variables[variable][name]["y"] = y
-                    variables[variable][name]["z"] = z
-                elif value.startswith("Vector4"):
-                    x = float(value[8:-1].split(",")[0].strip())
-                    y = float(value[8:-1].split(",")[1].strip())
-                    z = float(value[8:-1].split(",")[2].strip())
-                    w = float(value[8:-1].split(",")[3].strip())
-                    variables[variable][name]["x"] = x
-                    variables[variable][name]["y"] = y
-                    variables[variable][name]["z"] = z
-                    variables[variable][name]["w"] = w
-                elif value.startswith("ColorRGBA"):
-                    r = float(int(value[10:-1].split(",")[0].strip()) / 255)
-                    g = float(int(value[10:-1].split(",")[1].strip()) / 255)
-                    b = float(int(value[10:-1].split(",")[2].strip()) / 255)
-                    a = float(int(value[10:-1].split(",")[3].strip()) / 255)
-                    variables[variable][name]["r"] = r
-                    variables[variable][name]["g"] = g
-                    variables[variable][name]["b"] = b
-                    variables[variable][name]["a"] = a
+                if not "=" in line:
+                    name = line[len(variable)+1:-1].split("(")[0].strip()
+                    value = line[len(variable)+1:-1].split("(")[1].strip()
+                    if name == "addTexture":
+                        variables[variable]["textures"].append(variables[value])
                 else:
-                    print(f"Error: unknown value at line {str(i)} \"{value}\"")
-                    exit()
+                    name = line[len(variable+"."):].split("=")[0].strip()
+                    value = line[len(variable)+1:].split("=")[1].strip()
+                    if name == "group":
+                        for variable2 in variables:
+                            if variable2 == value:
+                                variables[variable]["group"] = variables[variable2]["id"]
+                    elif value == "true":
+                        variables[variable][name] = True
+                    elif value == "false":
+                        variables[variable][name] = False
+                    elif value.startswith("\"") or value.startswith("'"):
+                        variables[variable][name] = value[1:-1]
+                    elif value.startswith("Vector3"):
+                        x = float(value[8:-1].split(",")[0].strip())
+                        y = float(value[8:-1].split(",")[1].strip())
+                        z = float(value[8:-1].split(",")[2].strip())
+                        variables[variable][name]["x"] = x
+                        variables[variable][name]["y"] = y
+                        variables[variable][name]["z"] = z
+                    elif value.startswith("Vector4"):
+                        x = float(value[8:-1].split(",")[0].strip())
+                        y = float(value[8:-1].split(",")[1].strip())
+                        z = float(value[8:-1].split(",")[2].strip())
+                        w = float(value[8:-1].split(",")[3].strip())
+                        variables[variable][name]["x"] = x
+                        variables[variable][name]["y"] = y
+                        variables[variable][name]["z"] = z
+                        variables[variable][name]["w"] = w
+                    elif value.startswith("ColorRGBA"):
+                        r = float(int(value[10:-1].split(",")[0].strip()) / 255)
+                        g = float(int(value[10:-1].split(",")[1].strip()) / 255)
+                        b = float(int(value[10:-1].split(",")[2].strip()) / 255)
+                        a = float(int(value[10:-1].split(",")[3].strip()) / 255)
+                        variables[variable][name]["r"] = r
+                        variables[variable][name]["g"] = g
+                        variables[variable][name]["b"] = b
+                        variables[variable][name]["a"] = a
+                    else:
+                        print(f"Error: unknown value at line {str(i)} \"{value}\"")
+                        exit()
                 tocontinue = True
         if tocontinue:
             tocontinue = False
@@ -138,20 +139,26 @@ def compiler(input, output):
             groupi+=1
             if value == "Group()":
                 variables[name] = {"type": "Group", "name": name, "id": groupi, "parent_group": None}
+        elif line.startswith("texture"):
+            name = line[7:].strip().split("=")[0].strip()
+            value = line[7:].strip().split("=")[1].strip()
+            if value == "Texture()":
+                variables[name] = {"face": "Top", "kind": "Studs"}
         elif line.startswith("//") or line == "":
             pass
         else:
             print(f"Error: unknown line at line {str(i)} \"{line}\"")
             exit()
     for variable in variables:
-        if variables[variable]["type"] == "Part":
-            variables[variable].pop("type")
-            jsondata["parts"].append(variables[variable])
-        elif variables[variable]["type"] == "Group":
-            variables[variable].pop("type")
-            variables[variable].pop("id")
-            jsondata["groups"].append(variables[variable])
-    open(f"{output}", "w").write(json.dumps(jsondata))
+        if "type" in variables[variable]:
+            if variables[variable]["type"] == "Part":
+                variables[variable].pop("type")
+                jsondata["parts"].append(variables[variable])
+            elif variables[variable]["type"] == "Group":
+                variables[variable].pop("type")
+                variables[variable].pop("id")
+                jsondata["groups"].append(variables[variable])
+        open(f"{output}", "w").write(json.dumps(jsondata))
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
