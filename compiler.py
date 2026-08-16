@@ -201,7 +201,7 @@ def compiler(input, output):
                 variables[variable].pop("type")
                 variables[variable].pop("id")
                 jsondata["groups"].append(variables[variable])
-        open(f"{output}", "w").write(json.dumps(jsondata))
+    open(output, "w").write(json.dumps(jsondata))
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
