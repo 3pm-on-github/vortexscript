@@ -25,9 +25,9 @@ The file extension for VortexScript is .vs
 - [x] Can Collide (Boolean)  
 - [x] Spawn Location (Boolean)  
 - [x] Baseplate (Boolean)  
-- [ ] Custom Appearance (Boolean)  
+- [x] Custom Appearance (Boolean)  
 - [x] Truss (Boolean)  
-- [ ] Textures (Texture variable type)  
+- [x] Textures (Texture variable type)  
 - [ ] PointLight (PointLight variable type)  
 - [ ] SpotLight (SpotLight variable type)  
 
