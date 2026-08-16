@@ -61,8 +61,11 @@ def getpartjson():
         "can_collide": True,
         "spawn_location": False,
         "baseplate": False,
+        "custom_appearance": False,
         "truss": False,
-        "textures": []
+        "textures": [],
+        "point_light": None,
+        "spot_light": None
     }
 
 def compiler(input, output):
