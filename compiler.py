@@ -3,30 +3,23 @@ import random, json, sys
 jsondata = {
   "project_id": random.randbytes(16).hex(),
   "parts": [],
-  "lights": [
-    {
-      "name": "Light",
-      "position": {
-        "x": 50.0,
-        "y": 80.0,
-        "z": 30.0
-      },
-      "rotation": {
-        "x": -0.39447272,
-        "y": 0.43916786,
-        "z": 0.22334667,
-        "w": 0.775654
-      },
-      "color": {
-        "r": 0.99999994,
-        "g": 0.99999994,
-        "b": 0.99999994,
-        "a": 1.0
-      },
-      "illuminance": 10000.0,
-      "shadows_enabled": True
-    }
-  ],
+  "lighting": {
+    "ambient_color": {
+      "r": 0.99999994,
+      "g": 0.99999994,
+      "b": 0.99999994,
+      "a": 1.0
+    },
+    "brightness": 0.0,
+    "sun_color": {
+      "r": 0.99999994,
+      "g": 0.99999994,
+      "b": 0.99999994,
+      "a": 1.0
+    },
+    "sun_illuminance": 8000.0,
+    "sun_shadow_maps_enabled": True
+  },
   "groups": []
 }
 def getpartjson():
