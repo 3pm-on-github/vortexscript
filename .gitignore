@@ -1,5 +1,4 @@
 __pycache__
 badapple
-test.vs
-project.json
-test.json
+*.vs
+*.json
