@@ -97,6 +97,8 @@ def compiler(input, output):
                         variables[variable]["group"] = variables[value]["id"]
                     elif name == "point_light":
                         variables[variable]["point_light"] = variables[value]
+                    elif name == "spot_light":
+                        variables[variable]["spot_light"] = variables[value]
                     elif name == "intensity":
                         variables[variable][name] = float(value) * 1500000.0
                     elif is_float(value):
@@ -171,6 +173,23 @@ def compiler(input, output):
                     "intensity": 1500000.0,
                     "range": 20.0,
                     "shadow_maps_enabled": False
+                }
+        elif line.startswith("spotLight"):
+            name = line[9:].strip().split("=")[0].strip()
+            value = line[9:].strip().split("=")[1].strip()
+            if value == "SpotLight()":
+                variables[name] = {
+                    "color": {
+                        "r": 0.99999994,
+                        "g": 0.99999994,
+                        "b": 0.99999994,
+                        "a": 1.0
+                    },
+                    "intensity": 1500000.0,
+                    "range": 20.0,
+                    "angle": 90.0,
+                    "shadow_maps_enabled": False,
+                    "face": "Front"
                 }
         elif line.startswith("//") or line == "":
             pass

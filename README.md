@@ -5,10 +5,10 @@ The file extension for VortexScript is .vs
 ## TODO-LIST
 
 ### Objects
-- [ ] Parts  
+- [x] Parts  
 - [x] Textures  
 - [x] PointLight  
-- [ ] SpotLight  
+- [x] SpotLight  
 - [x] Groups  
 - [ ] Lighting  
 
@@ -29,7 +29,7 @@ The file extension for VortexScript is .vs
 - [x] Truss (Boolean)  
 - [x] Textures (Texture variable type)  
 - [x] PointLight (PointLight variable type)  
-- [ ] SpotLight (SpotLight variable type)  
+- [x] SpotLight (SpotLight variable type)  
 
 ### Textures
 - [x] Texture variable type  
@@ -43,13 +43,13 @@ The file extension for VortexScript is .vs
 - [x] Shadow Maps Enabled (Boolean)  
 
 ### SpotLight
-- [ ] SpotLight variable type  
-- [ ] Color (ColorRGBA)  
-- [ ] Intensity (Float)  
-- [ ] Range (Float)  
-- [ ] Angle (Float)  
-- [ ] Shadow Maps Enabled (Boolean)  
-- [ ] Face (String)  
+- [x] SpotLight variable type  
+- [x] Color (ColorRGBA)  
+- [x] Intensity (Float)  
+- [x] Range (Float)  
+- [x] Angle (Float)  
+- [x] Shadow Maps Enabled (Boolean)  
+- [x] Face (String)  
 
 ### Groups
 - [x] Group variable type  
