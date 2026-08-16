@@ -31,7 +31,7 @@ def getpartjson():
             "b": 1.0,
             "a": 1.0
         },
-        "material": "Plastic",
+        "material": "Smooth",
         "group": None,
         "cast_shadow": True,
         "anchored": False,
