@@ -10,7 +10,7 @@ The file extension for VortexScript is .vs
 - [x] PointLight  
 - [x] SpotLight  
 - [x] Groups  
-- [ ] Lighting  
+- [x] Lighting  
 
 ### Parts
 - [x] Part variable type  
@@ -56,9 +56,9 @@ The file extension for VortexScript is .vs
 - [x] Parent Group (Integer)  
 
 ### Lighting
-- [ ] Lighting variable type  
-- [ ] Ambient Color (ColorRGBA)  
-- [ ] Brightness (Float)  
-- [ ] Sun Color (ColorRGBA)  
-- [ ] Sun Illuminance (Float)  
-- [ ] Sun Shadow Maps Enabled (Boolean)  
+- [x] Lighting variable type  
+- [x] Ambient Color (ColorRGBA)  
+- [x] Brightness (Float)  
+- [x] Sun Color (ColorRGBA)  
+- [x] Sun Illuminance (Float)  
+- [x] Sun Shadow Maps Enabled (Boolean)  

@@ -3,23 +3,7 @@ import random, json, sys
 jsondata = {
   "project_id": random.randbytes(16).hex(),
   "parts": [],
-  "lighting": {
-    "ambient_color": {
-      "r": 0.99999994,
-      "g": 0.99999994,
-      "b": 0.99999994,
-      "a": 1.0
-    },
-    "brightness": 0.0,
-    "sun_color": {
-      "r": 0.99999994,
-      "g": 0.99999994,
-      "b": 0.99999994,
-      "a": 1.0
-    },
-    "sun_illuminance": 8000.0,
-    "sun_shadow_maps_enabled": True
-  },
+  "lighting": None,
   "groups": []
 }
 def getpartjson():
@@ -69,7 +53,25 @@ def is_float(str):
 
 def compiler(input, output):
     script = open(input, "r").read()
-    variables = {}
+    variables = {
+        "lighting": {
+            "ambient_color": {
+                "r": 0.99999994,
+                "g": 0.99999994,
+                "b": 0.99999994,
+                "a": 1.0
+            },
+            "brightness": 0.0,
+            "sun_color": {
+                "r": 0.99999994,
+                "g": 0.99999994,
+                "b": 0.99999994,
+                "a": 1.0
+            },
+            "sun_illuminance": 8000.0,
+            "sun_shadow_maps_enabled": True
+        }
+    }
     i = 0
     groupi = -1
     tocontinue = False
@@ -189,6 +191,7 @@ def compiler(input, output):
         else:
             print(f"Error: unknown line at line {str(i)} \"{line}\"")
             exit()
+    jsondata["lighting"] = variables["lighting"]
     for variable in variables:
         if "type" in variables[variable]:
             if variables[variable]["type"] == "Part":
