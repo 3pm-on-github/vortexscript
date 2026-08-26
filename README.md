@@ -4,6 +4,10 @@ The file extension for VortexScript is .vs
 
 ## TODO-LIST
 
+### Formats
+- [x] JSON format  
+- [ ] VRTX format  
+
 ### Objects
 - [x] Parts  
 - [x] Textures  
@@ -62,3 +66,27 @@ The file extension for VortexScript is .vs
 - [x] Sun Color (ColorRGBA)  
 - [x] Sun Illuminance (Float)  
 - [x] Sun Shadow Maps Enabled (Boolean)  
+
+## VRTX format
+
+### Structure
+- [ ] "VRTX" magic number
+- [ ] Version (0x01)
+- [ ] zstd-compressed payload
+
+### Payload
+- [ ] u8 - leading byte
+- [ ] string - project id (u64 length prefix + utf8 sha128 hash)
+- [ ] u64 - part count
+
+### Parts
+- [ ] string - name
+- [ ] f32*3 - position
+- [ ] f32*4 - rotation
+- [ ] f32*3 - scale
+- [ ] f32*4 - color
+- [ ] u8 - material
+- [ ] u32 - unknown
+- [ ] u64 - group id
+
+***The rest is unknown for now, which is why we didn't implement the VRTX format yet.***
